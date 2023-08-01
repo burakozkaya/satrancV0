@@ -8,15 +8,13 @@
             string[,,] satrancT = new string[8, 8, 3];
             satrancTahtasiOlustur(satrancT);
             satrancTahtasi(satrancT);
+            bool sah = true;
             string cPiece;
             string move;
             int count = 1;
             while (true)
             {
-                if (count % 2 == 1)
-                    Console.WriteLine("Player 1'in sırası");
-                else
-                    Console.WriteLine("Player 2'nin sırası");
+                Console.WriteLine(count % 2 == 1 ? "Player 1'in sırası" : "Player 2'nin sırası");
                 cPiece = Console.ReadLine().ToUpper();
                 if (!validPlayerCheck(count, satrancT, cPiece))
                 {
@@ -30,16 +28,20 @@
                     continue;
                 }
 
-                if (!tasHareketi(satrancT, cPiece, move))
+                if (!tasHareketi(satrancT, cPiece, move, ref sah))
                 {
                     Console.WriteLine("Hatalı taş hareketi");
                     continue;
                 }
+                if (!sah)
+                    break;
                 count++;
                 satrancTahtasi(satrancT);
             }
+            satrancTahtasi(satrancT);
+            Console.WriteLine(count % 2 == 1 ? "Player 1 kazandı" : "Player 2 kazandı");
         }
-        static bool tasHareketi(string[,,] satrancT, string cPiece, string move)
+        static bool tasHareketi(string[,,] satrancT, string cPiece, string move,ref bool sah)
         {
             var tempXCP = xConverter(cPiece);
             var tempYCP = yConverter(cPiece);
@@ -48,9 +50,9 @@
             int temp = 0;
             if ((tempYM >= 8 && tempYM >= 0) || (tempXM >= 8 && tempXM >= 0) || (tempXCP >= 8 && tempXCP >= 0) || (tempYCP >= 8 && tempYCP >= 0))
                 return false;
-            return validTasHareket(satrancT, tempYCP, tempXCP, tempYM, tempXM);
+            return validTasHareket(satrancT, tempYCP, tempXCP, tempYM, tempXM,ref sah);
         }
-        static bool validTasHareket(string[,,] satrancT, int tempYCP, int tempXCP, int tempYM, int tempXM)
+        static bool validTasHareket(string[,,] satrancT, int tempYCP, int tempXCP, int tempYM, int tempXM, ref bool sah)
         {
             int i;
             int final;
@@ -72,7 +74,7 @@
                     return vezirCheck(tempYCP, tempYM, tempXCP, tempXM, satrancT);
                     break;
                 case "Ş":
-                    return sahCheck(tempYCP, tempYM, tempXCP, tempXM, satrancT);
+                    return sahCheck(tempYCP, tempYM, tempXCP, tempXM, satrancT, ref sah);
                     break;
                 default: return false;
             }
@@ -88,14 +90,14 @@
                     {
                         if (i == 1)
                         {
-                            satrancTahtasi[i, j, 0] = "\u265F";
+                            satrancTahtasi[i, j, 0] = "P";
                             satrancTahtasi[i, j, 1] = "P2";
                             satrancTahtasi[i, j, 2] = "FM";
                         }
                         else
                         {
 
-                            satrancTahtasi[i, j, 0] = "\u2659";
+                            satrancTahtasi[i, j, 0] = "P";
                             satrancTahtasi[i, j, 1] = "P1";
                             satrancTahtasi[i, j, 2] = "FM";
                         }
@@ -106,34 +108,23 @@
                         if (i == 0)
                         {
                             satrancTahtasi[i, j, 1] = "P2";
-                            satrancTahtasi[i, j, 2] = "FM"; 
-                            if ((j == 0 || j == 7))
-                                satrancTahtasi[i, j, 0] = "\u2656";
-                            else if (j == 1 || j == 6)
-                                satrancTahtasi[i, j, 0] = "\u2658";
-                            else if (j == 2 || j == 5)
-                                satrancTahtasi[i, j, 0] = "\u2657";
-                            else if (j == 3)
-                                satrancTahtasi[i, j, 0] = "\u2655";
-                            else
-                                satrancTahtasi[i, j, 0] = "\u2654";
+                            satrancTahtasi[i, j, 2] = "FM";
                         }
                         if (i == 7)
                         {
                             satrancTahtasi[i, j, 1] = "P1";
                             satrancTahtasi[i, j, 2] = "FM";
-                            if ((j == 0 || j == 7))
-                                satrancTahtasi[i, j, 0] = "\u265C";
-                            else if (j == 1 || j == 6)
-                                satrancTahtasi[i, j, 0] = "\u265E";
-                            else if (j == 2 || j == 5)
-                                satrancTahtasi[i, j, 0] = "\u265D";
-                            else if (j == 3)
-                                satrancTahtasi[i, j, 0] = "\u265B";
-                            else
-                                satrancTahtasi[i, j, 0] = "\u265A";
-
                         }
+                        if ((j == 0 || j == 7))
+                            satrancTahtasi[i, j, 0] = "K";
+                        else if (j == 1 || j == 6)
+                            satrancTahtasi[i, j, 0] = "A";
+                        else if (j == 2 || j == 5)
+                            satrancTahtasi[i, j, 0] = "F";
+                        else if (j == 3)
+                            satrancTahtasi[i, j, 0] = "V";
+                        else
+                            satrancTahtasi[i, j, 0] = "Ş";
 
                     }
 
@@ -234,10 +225,11 @@
                 return false;
         }
 
-        public static bool sahCheck(int tempYCP, int tempYM, int tempXCP, int tempXM, string[,,] satrancT)
+        public static bool sahCheck(int tempYCP, int tempYM, int tempXCP, int tempXM, string[,,] satrancT, ref bool sah)
         {
             if (Math.Abs(tempYCP - tempYM) == 1 || Math.Abs(tempXCP - tempXM) == 1)
             {
+                sah = false;
                 Move(tempXCP, tempYCP, tempXM, tempYM, satrancT);
                 return true;
             }
