@@ -56,58 +56,22 @@
             switch (satrancT[tempYCP, tempXCP, 0])
             {
                 case "P":
-                    if (Math.Abs(tempYCP - tempYM) <= 2 && satrancT[tempYCP, tempXCP, 2] == "FM")
-                    {
-                        Move(tempXCP, tempYCP, tempXM, tempYM, satrancT);
-                        satrancT[tempYCP, tempXCP, 2] = "NFM";
-                        return true;
-                    }
-                    else if ((Math.Abs(tempYCP - tempYM) <= 1 && (Math.Abs(tempYCP - tempYM) != 0) || (Math.Abs(tempXCP - tempXM) == 1 && satrancT[tempYM, tempXM, 0] == "P")))
-                    {
-                        Move(tempXCP, tempYCP, tempXM, tempYM, satrancT);
-                        return true;
-                    }
-                    else
-                        return false;
+                    return piyonCHeck(tempXCP, tempXM, tempYCP, tempYM, satrancT);
                     break;
                 case "K":
                     return kaleCheck(tempXCP, tempXM, tempYCP, tempYM, satrancT);
                     break;
                 case "F":
-                    if (Math.Abs((tempYCP - tempYM)) == Math.Abs(tempXCP - tempXM))
-                    {
-                        Move(tempXCP, tempYCP, tempXM, tempYM, satrancT);
-                        return true;
-                    }
-                    else
-                        return false;
+                    return filCheck(tempYCP, tempYM, tempXCP, tempXM, satrancT);
                     break;
                 case "A":
-                    if (Math.Abs(tempYCP - tempYM) == 2 && Math.Abs(tempXM - tempXCP) == 1)
-                    {
-                        Move(tempXCP, tempYCP, tempXM, tempYM, satrancT);
-                        return true;
-                    }
-                    else
-                        return false;
+                    return atCheck(tempYCP, tempYM, tempXCP, tempXM, satrancT);
                     break;
                 case "V":
-                    if (Math.Abs((tempYCP - tempYM)) == Math.Abs(tempXCP - tempXM)   || Math.Abs(tempYCP - tempYM) == 2 && Math.Abs(tempXM - tempXCP) == 2)
-                    {
-                        Move(tempXCP, tempYCP, tempXM, tempYM, satrancT);
-                        return true;
-                    }
-                    else
-                        return false;
+                    return vezirCHeck(tempYCP, tempYM, tempXCP, tempXM, satrancT);
                     break;
                 case "Ş":
-                    if (Math.Abs(tempYCP - tempYM) == 1 || Math.Abs(tempXCP - tempXM) == 1)
-                    {
-                        Move(tempXCP, tempYCP, tempXM, tempYM, satrancT);
-                        return true;
-                    }
-                    else
-                        return false;
+                    return sahCheck(tempYCP, tempYM, tempXCP, tempXM, satrancT);
                     break;
                 default: return false;
             }
@@ -181,14 +145,14 @@
                 Console.WriteLine();
             }
         }
-        private static void Move(int tempXCP, int tempYCP, int tempXM, int tempYM, string[,,] satrancT)
+        static void Move(int tempXCP, int tempYCP, int tempXM, int tempYM, string[,,] satrancT)
         {
             satrancT[tempYM, tempXM, 0] = satrancT[tempYCP, tempXCP, 0];
             satrancT[tempYCP, tempXCP, 0] = "*";
             satrancT[tempYM, tempXM, 1] = satrancT[tempYCP, tempXCP, 1];
             satrancT[tempYCP, tempXCP, 1] = "NPC";
         }
-        private static bool validPlayerCheck(int count, string[,,] satrancT, string cPiece)
+        static bool validPlayerCheck(int count, string[,,] satrancT, string cPiece)
         {
             var tempXCP = xConverter(cPiece);
             var tempYCP = yConverter(cPiece);
@@ -209,7 +173,7 @@
 
 
         }
-        private static bool kaleCheck(int tempXCP, int tempXM, int tempYCP, int tempYM, string[,,] satrancT)
+        static bool kaleCheck(int tempXCP, int tempXM, int tempYCP, int tempYM, string[,,] satrancT)
         {
             int i;
             int final;
@@ -226,8 +190,64 @@
                 return false;
             }
         }
+        static bool filCheck(int tempYCP, int tempYM, int tempXCP, int tempXM, string[,,] satrancT)
+        {
 
-        private static bool validEatCheck(int count, string[,,] satrancT, string cPiece, string move)
+            if (Math.Abs((tempYCP - tempYM)) == Math.Abs(tempXCP - tempXM))
+            {
+                Move(tempXCP, tempYCP, tempXM, tempYM, satrancT);
+                return true;
+            }
+            else
+                return false;
+        }
+        static bool atCheck(int tempYCP, int tempYM, int tempXCP, int tempXM, string[,,] satrancT)
+        {
+            if (Math.Abs(tempYCP - tempYM) == 2 && Math.Abs(tempXM - tempXCP) == 1)
+            {
+                Move(tempXCP, tempYCP, tempXM, tempYM, satrancT);
+                return true;
+            }
+            else
+                return false;
+        }
+        static bool vezirCheck(int tempYCP, int tempYM, int tempXCP, int tempXM, string[,,] satrancT)
+        {
+            if (filCheck(tempYCP, tempYM, tempXCP, tempXM, satrancT) || kaleCheck(tempXCP, tempXM, tempYCP, tempYM, satrancT))
+            {
+                Move(tempXCP, tempYCP, tempXM, tempYM, satrancT);
+                return true;
+            }
+            else
+                return false;
+        }
+        static bool sahCheck(int tempYCP, int tempYM, int tempXCP, int tempXM, string[,,] satrancT)
+        {
+            if (Math.Abs(tempYCP - tempYM) == 1 || Math.Abs(tempXCP - tempXM) == 1)
+            {
+                Move(tempXCP, tempYCP, tempXM, tempYM, satrancT);
+                return true;
+            }
+            else
+                return false;
+        }
+        static bool piyonCheck(int tempYCP, int tempYM, int tempXCP, int tempXM, string[,,] satrancT)
+        {
+            if (Math.Abs(tempYCP - tempYM) <= 2 && satrancT[tempYCP, tempXCP, 2] == "FM")
+            {
+                Move(tempXCP, tempYCP, tempXM, tempYM, satrancT);
+                satrancT[tempYCP, tempXCP, 2] = "NFM";
+                return true;
+            }
+            else if ((Math.Abs(tempYCP - tempYM) <= 1 && (Math.Abs(tempYCP - tempYM) != 0) || (Math.Abs(tempXCP - tempXM) == 1 && satrancT[tempYM, tempXM, 0] == "P")))
+            {
+                Move(tempXCP, tempYCP, tempXM, tempYM, satrancT);
+                return true;
+            }
+            else
+                return false;
+        }
+        static bool validEatCheck(int count, string[,,] satrancT, string cPiece, string move)
         {
             var tempXCP = xConverter(cPiece);
             var tempYCP = yConverter(cPiece);
@@ -238,11 +258,11 @@
             else
                 return true;
         }
-        private static int xConverter(string cPiece)
+        static int xConverter(string cPiece)
         {
             return (char)(((int)Convert.ToChar(cPiece.Substring(0, 1))) - 65);
         }
-        private static int yConverter(string cPiece)
+        static int yConverter(string cPiece)
         {
             return 7 - (int.Parse(cPiece.Substring(1, 1)) - 1);
         }
