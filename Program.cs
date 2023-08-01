@@ -4,6 +4,7 @@
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             string[,,] satrancT = new string[8, 8, 3];
             satrancTahtasiOlustur(satrancT);
             satrancTahtasi(satrancT);
@@ -87,14 +88,14 @@
                     {
                         if (i == 1)
                         {
-                            satrancTahtasi[i, j, 0] = "P";
+                            satrancTahtasi[i, j, 0] = "\u265F";
                             satrancTahtasi[i, j, 1] = "P2";
                             satrancTahtasi[i, j, 2] = "FM";
                         }
                         else
                         {
 
-                            satrancTahtasi[i, j, 0] = "P";
+                            satrancTahtasi[i, j, 0] = "\u2659";
                             satrancTahtasi[i, j, 1] = "P1";
                             satrancTahtasi[i, j, 2] = "FM";
                         }
@@ -105,23 +106,34 @@
                         if (i == 0)
                         {
                             satrancTahtasi[i, j, 1] = "P2";
-                            satrancTahtasi[i, j, 2] = "FM";
+                            satrancTahtasi[i, j, 2] = "FM"; 
+                            if ((j == 0 || j == 7))
+                                satrancTahtasi[i, j, 0] = "\u2656";
+                            else if (j == 1 || j == 6)
+                                satrancTahtasi[i, j, 0] = "\u2658";
+                            else if (j == 2 || j == 5)
+                                satrancTahtasi[i, j, 0] = "\u2657";
+                            else if (j == 3)
+                                satrancTahtasi[i, j, 0] = "\u2655";
+                            else
+                                satrancTahtasi[i, j, 0] = "\u2654";
                         }
                         if (i == 7)
                         {
                             satrancTahtasi[i, j, 1] = "P1";
                             satrancTahtasi[i, j, 2] = "FM";
+                            if ((j == 0 || j == 7))
+                                satrancTahtasi[i, j, 0] = "\u265C";
+                            else if (j == 1 || j == 6)
+                                satrancTahtasi[i, j, 0] = "\u265E";
+                            else if (j == 2 || j == 5)
+                                satrancTahtasi[i, j, 0] = "\u265D";
+                            else if (j == 3)
+                                satrancTahtasi[i, j, 0] = "\u265B";
+                            else
+                                satrancTahtasi[i, j, 0] = "\u265A";
+
                         }
-                        if ((j == 0 || j == 7))
-                            satrancTahtasi[i, j, 0] = "K";
-                        else if (j == 1 || j == 6)
-                            satrancTahtasi[i, j, 0] = "A";
-                        else if (j == 2 || j == 5)
-                            satrancTahtasi[i, j, 0] = "F";
-                        else if (j == 3)
-                            satrancTahtasi[i, j, 0] = "V";
-                        else
-                            satrancTahtasi[i, j, 0] = "Ş";
 
                     }
 
