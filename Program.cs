@@ -53,7 +53,7 @@
                         return false;
                     break;
                 case "F":
-                    if (Math.Abs(tempYCP - tempXM) == 4 && Math.Abs(tempXCP - tempYM) == 4)
+                    if (Math.Abs(tempYCP - tempYM) == 4 && Math.Abs(tempXCP - tempXM) == 4)
                     {
                         Move(tempXCP, tempYCP, tempXM, tempYM, satrancT);
                         return true;
