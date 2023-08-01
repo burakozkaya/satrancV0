@@ -56,7 +56,7 @@
             switch (satrancT[tempYCP, tempXCP, 0])
             {
                 case "P":
-                    return piyonCHeck(tempXCP, tempXM, tempYCP, tempYM, satrancT);
+                    return piyonCheck(tempXCP, tempXM, tempYCP, tempYM, satrancT);
                     break;
                 case "K":
                     return kaleCheck(tempXCP, tempXM, tempYCP, tempYM, satrancT);
@@ -68,7 +68,7 @@
                     return atCheck(tempYCP, tempYM, tempXCP, tempXM, satrancT);
                     break;
                 case "V":
-                    return vezirCHeck(tempYCP, tempYM, tempXCP, tempXM, satrancT);
+                    return vezirCheck(tempYCP, tempYM, tempXCP, tempXM, satrancT);
                     break;
                 case "Ş":
                     return sahCheck(tempYCP, tempYM, tempXCP, tempXM, satrancT);
@@ -211,7 +211,7 @@
             else
                 return false;
         }
-        static bool vezirCheck(int tempYCP, int tempYM, int tempXCP, int tempXM, string[,,] satrancT)
+        public static bool vezirCheck(int tempYCP, int tempYM, int tempXCP, int tempXM, string[,,] satrancT)
         {
             if (filCheck(tempYCP, tempYM, tempXCP, tempXM, satrancT) || kaleCheck(tempXCP, tempXM, tempYCP, tempYM, satrancT))
             {
@@ -221,7 +221,8 @@
             else
                 return false;
         }
-        static bool sahCheck(int tempYCP, int tempYM, int tempXCP, int tempXM, string[,,] satrancT)
+
+        public static bool sahCheck(int tempYCP, int tempYM, int tempXCP, int tempXM, string[,,] satrancT)
         {
             if (Math.Abs(tempYCP - tempYM) == 1 || Math.Abs(tempXCP - tempXM) == 1)
             {
