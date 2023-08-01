@@ -74,7 +74,7 @@
                     return kaleCheck(tempXCP, tempXM, tempYCP, tempYM, satrancT);
                     break;
                 case "F":
-                    if (Math.Abs(tempYCP - tempYM) == 4 && Math.Abs(tempXCP - tempXM) == 4)
+                    if (Math.Abs((tempYCP - tempYM)) == Math.Abs(tempXCP - tempXM))
                     {
                         Move(tempXCP, tempYCP, tempXM, tempYM, satrancT);
                         return true;
@@ -92,7 +92,7 @@
                         return false;
                     break;
                 case "V":
-                    if (Math.Abs(tempYCP - tempXM) == 4 && Math.Abs(tempXCP - tempYM) == 4 || Math.Abs(tempYCP - tempYM) == 2 && Math.Abs(tempXM - tempXCP) == 2)
+                    if (Math.Abs((tempYCP - tempYM)) == Math.Abs(tempXCP - tempXM)   || Math.Abs(tempYCP - tempYM) == 2 && Math.Abs(tempXM - tempXCP) == 2)
                     {
                         Move(tempXCP, tempYCP, tempXM, tempYM, satrancT);
                         return true;
@@ -226,25 +226,25 @@
                 return false;
             }
         }
-    
-    private static bool validEatCheck(int count, string[,,] satrancT, string cPiece, string move)
-    {
-        var tempXCP = xConverter(cPiece);
-        var tempYCP = yConverter(cPiece);
-        var tempXM = xConverter(move);
-        var tempYM = yConverter(move);
-        if (satrancT[tempYCP, tempXCP, 1] == satrancT[tempYM, tempXM, 1])
-            return false;
-        else
-            return true;
+
+        private static bool validEatCheck(int count, string[,,] satrancT, string cPiece, string move)
+        {
+            var tempXCP = xConverter(cPiece);
+            var tempYCP = yConverter(cPiece);
+            var tempXM = xConverter(move);
+            var tempYM = yConverter(move);
+            if (satrancT[tempYCP, tempXCP, 1] == satrancT[tempYM, tempXM, 1])
+                return false;
+            else
+                return true;
+        }
+        private static int xConverter(string cPiece)
+        {
+            return (char)(((int)Convert.ToChar(cPiece.Substring(0, 1))) - 65);
+        }
+        private static int yConverter(string cPiece)
+        {
+            return 7 - (int.Parse(cPiece.Substring(1, 1)) - 1);
+        }
     }
-    private static int xConverter(string cPiece)
-    {
-        return (char)(((int)Convert.ToChar(cPiece.Substring(0, 1))) - 65);
-    }
-    private static int yConverter(string cPiece)
-    {
-        return 7 - (int.Parse(cPiece.Substring(1, 1)) - 1);
-    }
-}
 }
